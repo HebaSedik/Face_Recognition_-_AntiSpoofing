@@ -8,10 +8,10 @@ from ultralytics import YOLO
 import cvzone
 import math
 import pygame
-import serial
+#import serial
 
 # Open the serial port (update the port name based on your Arduino connection)
-arduino = serial.Serial('COM5', 9600)
+#arduino = serial.Serial('COM5', 9600)
 
 path = 'home'
 images = []
@@ -104,16 +104,16 @@ while True:
                             color = (0, 255, 0)
                             if previous_detection == 'fake':
                                 pygame.mixer.Sound.stop(alarm_sound)
-                                arduino.write(b'0')
+                                #arduino.write(b'0')
                             # Send '1' to turn on the LED when a real and known person is detected
-                            arduino.write(b'1')
+                            #arduino.write(b'1')
                         else:
                             color = (0, 0, 255)
                             fake_detected = True
                             pygame.mixer.Sound.play(alarm_sound)
-                            arduino.write(b'0')
-                        if classNames[cls] == 'no detection':
-                            arduino.write(b'0')
+                            #arduino.write(b'0')
+                        #if classNames[cls] == 'no detection':
+                            #arduino.write(b'0')
                         cv2.rectangle(img, (x1, y1), (x2, y2), (128, 0, 128), 2)
                         cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (128, 0, 128), cv2.FILLED)
                         cv2.putText(img, name + " " + f'{classNames[cls].upper()} {int(conf * 100)}%', (x1 + 6, y2 - 6),
@@ -142,7 +142,7 @@ while True:
             cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
             pygame.mixer.Sound.play(alarm_sound)
             # Send '0' to turn off the LED when an unknown or fake face is detected
-            arduino.write(b'0')
+            #arduino.write(b'0')
 
     if fake_detected:
         previous_detection = 'fake'
